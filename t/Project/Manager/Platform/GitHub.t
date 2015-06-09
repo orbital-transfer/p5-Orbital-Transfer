@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 2;
+use Test::More tests => 4;
 use Test::Exception;
 
 use Project::Manager::Platform::GitHub;
@@ -39,3 +39,13 @@ subtest "Correct name extraction" => sub {
 	}
 };
 
+subtest 'HTTPS web URI' => sub {
+	my $gr = Project::Manager::Platform::GitHub->new( uri => 'git@github.com:test/repo.git' );
+	is( $gr->github_https_web_uri, 'https://github.com/test/repo', 'correct HTTPS web URI for GitHub repo');
+};
+
+subtest 'Pithub data' => sub {
+	my $gr = Project::Manager::Platform::GitHub->new( namespace => 'SeeLucid', name => 'p5-Project-Manager' );
+	my $repo_data =  $gr->pithub_data->first;
+	ok( $repo_data );
+};
