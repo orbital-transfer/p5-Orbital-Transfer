@@ -68,4 +68,12 @@ sub _build_pithub_data {
 	return $self->_pithub_client->repos->get( user => $self->namespace, repo => $self->name );
 }
 
+sub is_fork {
+	...
+}
+
+sub number_of_open_issues {
+	...
+}
+
 1;
