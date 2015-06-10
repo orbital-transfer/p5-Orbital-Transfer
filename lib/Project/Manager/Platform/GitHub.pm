@@ -69,7 +69,8 @@ sub _build_pithub_data {
 }
 
 sub is_fork {
-	...
+	my ($self) = @_;
+	$self->pithub_data->first->{fork}
 }
 
 sub number_of_open_issues {
