@@ -74,7 +74,8 @@ sub is_fork {
 }
 
 sub number_of_open_issues {
-	...
+	my ($self) = @_;
+	$self->pithub_data->first->{open_issues_count};
 }
 
 1;
