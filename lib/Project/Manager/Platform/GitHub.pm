@@ -78,4 +78,8 @@ sub number_of_open_issues {
 	$self->pithub_data->first->{open_issues_count};
 }
 
+sub issues {
+	...
+}
+
 1;
