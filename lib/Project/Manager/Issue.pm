@@ -5,6 +5,6 @@ use warnings;
 
 use Moo;
 
-has [ qw{name state} ] => ( is => 'rw' );
+has [ qw{number title description state} ] => ( is => 'rw' );
 
 1;
