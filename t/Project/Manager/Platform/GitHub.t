@@ -49,3 +49,10 @@ subtest 'Pithub data' => sub {
 	my $repo_data =  $gr->pithub_data->first;
 	ok( $repo_data );
 };
+
+subtest 'Get issues' => sub {
+	my $gr = Project::Manager::Platform::GitHub->new( namespace => 'SeeLucid', name => 'p5-Project-Manager' );
+	my $repo_data =  $gr->issues;
+	use DDP; p $repo_data;
+	ok( $repo_data );
+};

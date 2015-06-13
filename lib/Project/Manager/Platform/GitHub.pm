@@ -3,6 +3,7 @@ package Project::Manager::Platform::GitHub;
 use Modern::Perl;
 use Moo;
 use Pithub;
+use Project::Manager::Issue::GitHub;
 
 has uri => ( is => 'ro',
 	trigger => 1,     # _trigger_uri
@@ -79,7 +80,13 @@ sub number_of_open_issues {
 }
 
 sub issues {
-	...
+	my ($self) = @_;
+	[ map {
+		Project::Manager::Issue::GitHub->new( $_, repo => $self )
+	} @{ $self->_pithub_client->issues->list(
+			user => $self->namespace,
+			repo => $self->name,
+		)->content } ];
 }
 
 1;
