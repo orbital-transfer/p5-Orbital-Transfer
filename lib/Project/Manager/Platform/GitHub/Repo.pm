@@ -1,4 +1,4 @@
-package Project::Manager::Platform::GitHub;
+package Project::Manager::Platform::GitHub::Repo;
 
 use Modern::Perl;
 use Moo;

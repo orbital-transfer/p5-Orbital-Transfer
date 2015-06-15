@@ -1,10 +1,10 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 use Test::Exception;
 
-use Project::Manager::Platform::GitHub;
+use Project::Manager::Platform::GitHub::Repo;
 
 my %common_data = ( namespace => 'test', name => 'repo' );
 my $data = [
@@ -27,31 +27,31 @@ my $data = [
 
 subtest "Throws exceptions for bad URIs" => sub {
 	for my $repo (@$data) {
-		lives_ok { Project::Manager::Platform::GitHub->new( uri => $repo->{uri} ) } 'valid GitHub URI';
+		lives_ok { Project::Manager::Platform::GitHub::Repo->new( uri => $repo->{uri} ) } 'valid GitHub URI';
 	}
 };
 
 subtest "Correct name extraction" => sub {
 	for my $repo (@$data) {
-		my $gh = Project::Manager::Platform::GitHub->new( uri => $repo->{uri} );
+		my $gh = Project::Manager::Platform::GitHub::Repo->new( uri => $repo->{uri} );
 		is( $gh->namespace, $repo->{namespace}, "correct namespace from $repo->{uri}" );
 		is( $gh->name, $repo->{name}, "correct name from $repo->{uri}" );
 	}
 };
 
 subtest 'HTTPS web URI' => sub {
-	my $gr = Project::Manager::Platform::GitHub->new( uri => 'git@github.com:test/repo.git' );
+	my $gr = Project::Manager::Platform::GitHub::Repo->new( uri => 'git@github.com:test/repo.git' );
 	is( $gr->github_https_web_uri, 'https://github.com/test/repo', 'correct HTTPS web URI for GitHub repo');
 };
 
 subtest 'Pithub data' => sub {
-	my $gr = Project::Manager::Platform::GitHub->new( namespace => 'SeeLucid', name => 'p5-Project-Manager' );
+	my $gr = Project::Manager::Platform::GitHub::Repo->new( namespace => 'SeeLucid', name => 'p5-Project-Manager' );
 	my $repo_data =  $gr->pithub_data->first;
 	ok( $repo_data );
 };
 
 subtest 'Get issues' => sub {
-	my $gr = Project::Manager::Platform::GitHub->new( namespace => 'SeeLucid', name => 'p5-Project-Manager' );
+	my $gr = Project::Manager::Platform::GitHub::Repo->new( namespace => 'SeeLucid', name => 'p5-Project-Manager' );
 	my $repo_data =  $gr->issues;
 	use DDP; p $repo_data;
 	ok( $repo_data );
