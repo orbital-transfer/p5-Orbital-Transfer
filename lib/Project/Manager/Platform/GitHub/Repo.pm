@@ -2,8 +2,9 @@ package Project::Manager::Platform::GitHub::Repo;
 
 use Modern::Perl;
 use Moo;
-use Pithub;
 use Project::Manager::Issue::GitHub;
+
+with qw(Project::Manager::Platform::GitHub::PithubRole);
 
 has uri => ( is => 'ro',
 	trigger => 1,     # _trigger_uri
@@ -15,7 +16,6 @@ has github_https_web_uri => ( is => 'lazy' ); # _build_github_https_web_uri
 
 has [ qw{namespace name} ] => ( is => 'rw' );
 
-has _pithub_client => ( is => 'lazy' ); # _build__pithub_client
 has pithub_data => ( is => 'lazy' ); # _build_pithub_data
 
 sub _parse_uri {
@@ -60,9 +60,6 @@ sub _build_git_scp_uri {
 sub _build_github_https_web_uri {
 	my ($self) = @_;
 	return "https://github.com/@{[ $self->namespace ]}/@{[ $self->name ]}";
-}
-sub _build__pithub_client {
-	Pithub->new;
 }
 sub _build_pithub_data {
 	my ($self) = @_;
