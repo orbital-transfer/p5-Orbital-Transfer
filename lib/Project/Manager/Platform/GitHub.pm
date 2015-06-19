@@ -1,9 +1,13 @@
 package Project::Manager::Platform::GitHub;
 
+use strict;
+use warnings;
+
 use LWP::UserAgent;
 use HTTP::Request;
 use Net::Netrc;
 use List::AllUtils qw(first);
+use Project::Manager::Error;
 
 sub create_token_interactive {
     local $| = 1;
@@ -33,6 +37,14 @@ sub _get_github_user_pass {
 	}
 }
 
+sub get_token {
+	my ($self) = @_;
+	my @cred = $self->_get_github_user_pass;
+	if( @cred ) {
+		return $self->create_token( @cred );
+	}
+}
+
 sub create_token {
 	my ($self, %opt) = @_;
 
@@ -40,7 +52,7 @@ sub create_token {
 	my $password = $opt{password};
 
 	my $parameters = {
-		scopes   => ["user", "read:org"],
+		scopes   => ["repo", "read:org"],
 		note     => "Project::Manager",
 		note_url => "https://github.com/SeeLucid/p5-Project-Manager",
 	};
@@ -56,10 +68,12 @@ sub create_token {
 	my $response_content = decode_json($response->decoded_content);
 
 	if ($response_content->{token} ) {
-		print "GITHUB_OAUTH_TOKEN=$response_content->{token}\n";
+		return $response_content->{token};
 	}
 	else {
-		print $response_content->{message} || "Unspecified error", "\n";
+		Project::Manager::Error::Authorization->throw(
+			   $response_content->{message}
+			|| "Unspecified error",
+		);
 	}
-
 }
