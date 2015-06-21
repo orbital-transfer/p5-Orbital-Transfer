@@ -26,6 +26,10 @@ sub _build__widget_menu {
 	my $menu = Tickit::Widget::Menu->new(
 	   items => [
 	      Tickit::Widget::Menu::Item->new(
+		 name => "Configure",
+		 on_activate => sub { $self->screen_configure }
+	      ),
+	      Tickit::Widget::Menu::Item->new(
 		 name => "Exit",
 		 on_activate => sub { $self->_tickit->stop }
 	      ),
@@ -34,5 +38,9 @@ sub _build__widget_menu {
 }
 
 sub _build__tickit { Tickit->new; }
+
+sub screen_configure {
+	...
+}
 
 1;
