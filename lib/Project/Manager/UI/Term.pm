@@ -40,7 +40,8 @@ sub _build__widget_menu {
 sub _build__tickit { Tickit->new; }
 
 sub screen_configure {
-	...
+	my ($self) = @_;
+	my $conf_win = $self->_tickit->rootwin->make_sub;
 }
 
 1;
