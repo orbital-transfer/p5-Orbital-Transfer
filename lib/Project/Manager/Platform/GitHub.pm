@@ -7,24 +7,28 @@ use LWP::UserAgent;
 use HTTP::Request;
 use Net::Netrc;
 use List::AllUtils qw(first);
+use JSON::MaybeXS;
 use Project::Manager::Error;
 
 sub create_token_interactive {
-    local $| = 1;
-    print "Username: ";
-    chomp(my $username = <>);
-    print "Password: ";
-    chomp(my $password = <>);
-    print "\n\n";
+	my ($self) = @_;
+	local $| = 1;
+	print "Username: ";
+	chomp(my $username = <>);
+	print "Password: ";
+	chomp(my $password = <>);
+	print "\n\n";
 
-    exit unless $username && $password;
-    $self->create_token( username => $username, password => $password );
+	exit unless $username && $password;
+	$self->create_token( username => $username, password => $password );
 }
 
 sub _get_github_user_pass {
-	my $mach = first { defined Net::Netrc->lookup($_) } qw(github.com api.github.com);
-	if( Net::Netrc->lookup('api.github.com')  ) {
-		my ($user, $pass) = $mach->login;
+	my $mach = first { defined }
+		map { Net::Netrc->lookup($_) }
+		qw(github.com api.github.com);
+	if( $mach ) {
+		my ($user, $pass) = $mach->lpa;
 		return (
 			username => $user,
 			password => $pass,
@@ -77,3 +81,5 @@ sub create_token {
 		);
 	}
 }
+
+1;

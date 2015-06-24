@@ -6,9 +6,10 @@ use Test::More tests => 1;
 use Test::Exception;
 
 use Project::Manager::Platform::GitHub::User;
+use Project::Manager::Config;
 
 my $user = Project::Manager::Platform::GitHub::User->new( user => 'zmughal' );
-my $token = $ENV{GITHUB_OAUTH_TOKEN};
+my $token = Project::Manager::Config->github_token;
 my $r = $user->_pithub_client
 	->repos(
 		token => $token,
