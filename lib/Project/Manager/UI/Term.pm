@@ -13,6 +13,8 @@ use Tickit::Widget::Menu;
 use Tickit::Widget::Frame;
 use Tickit::Widget::MenuBar;
 
+with qw(Project::Manager::UI::Role::DI);
+
 has _tickit => ( is => 'lazy' ); # _build__tickit
 has _widget_menubar => ( is => 'lazy' ); # _build__widget_menubar
 

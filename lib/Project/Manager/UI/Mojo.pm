@@ -1,6 +1,8 @@
 package Project::Manager::UI::Mojo;
 
 use Mojolicious::Lite;
+use Moo;
+with qw(Project::Manager::UI::Role::DI);
 
 # Route with placeholder
 get '/' => sub {
