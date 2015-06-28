@@ -6,6 +6,9 @@ use warnings;
 use Moo::Role;
 
 use Pithub;
+
+has github_token => ( is => 'rw' );
+
 has _pithub_client => ( is => 'lazy' ); # _build__pithub_client
 
 sub _build__pithub_client {
