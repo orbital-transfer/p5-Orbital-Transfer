@@ -7,6 +7,8 @@ use Project::Manager::UI::Term;
 use Bread::Board;
 
 sub run {
+	my ($self) = @_;
+
 	my $ui_opt = shift @ARGV;
 
 	my $ui_package = "Project::Manager::UI::Mojo";
@@ -16,7 +18,7 @@ sub run {
 		$ui_package = "Project::Manager::UI::Mojo"
 	}
 
-	my $ui = $ui_package->new;
+	my $ui = $ui_package->new( container => $self->app_container );
 	$ui->run;
 }
 
