@@ -21,6 +21,12 @@ sub startup {
 	my ($self, %opt) = shift;
 
 	$self->helper( container => $opt{container} );
+
+	# Router
+	my $r = $self->routes;
+
+	# Normal route to controller
+	$r->namespaces(['Project::Manager::UI::Mojo::Controller']);
 }
 
 1;
