@@ -1,7 +1,8 @@
 package Project::Manager::UI::Mojo;
 
-use Mojolicious::Lite;
+use Mojo::Base 'Mojolicious';
 use Moo;
+use Mojolicious;
 with qw(Project::Manager::UI::Role::DI);
 
 # Route with placeholder
@@ -14,6 +15,12 @@ get '/' => sub {
 sub run {
 	# Start the Mojolicious command system
 	app->start;
+}
+
+sub startup {
+	my ($self, %opt) = shift;
+
+	$self->helper( container => $opt{container} );
 }
 
 1;
