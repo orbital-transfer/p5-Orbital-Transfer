@@ -6,7 +6,7 @@ use Pithub;
 
 with qw(Project::Manager::Platform::GitHub::PithubRole);
 
-has user => ( is => 'ro', required => 1 );
+has user => ( is => 'ro', required => 0 );
 
 sub repos {
 	my ($self) = @_;
