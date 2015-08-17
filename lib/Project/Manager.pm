@@ -27,7 +27,7 @@ sub run {
 	}
 
 	my $ui = $ui_package->new( container => $self->app_container );
-	$ui->run;
+	$ui->run(@ARGV);
 }
 
 sub app_container {

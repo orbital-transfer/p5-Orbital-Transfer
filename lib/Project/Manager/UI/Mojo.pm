@@ -5,16 +5,10 @@ use Moo;
 use Mojolicious;
 with qw(Project::Manager::UI::Role::DI);
 
-# Route with placeholder
-get '/' => sub {
-	my $c = shift;
-	my $gh_repo = $c->container->resolve('github_user');
-	$c->render(text => "Hello from @{[ __PACKAGE__ ]}.");
-};
-
 sub run {
+	my ($self, @ARGV) = @_;
 	# Start the Mojolicious command system
-	app->start;
+	$self->start(@ARGV);
 }
 
 sub startup {
@@ -24,6 +18,8 @@ sub startup {
 
 	# Router
 	my $r = $self->routes;
+
+	$r->get('/')->to('root#index');
 
 	# Normal route to controller
 	$r->namespaces(['Project::Manager::UI::Mojo::Controller']);
