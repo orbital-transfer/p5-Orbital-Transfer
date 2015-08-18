@@ -19,7 +19,9 @@ sub startup {
 	# Router
 	my $r = $self->routes;
 
-	$r->get('/')->to('root#index');
+	$r->get('/')->to('Root#index');
+
+	$r->get('/api/github/repos')->to('Platform::GitHub#repos');
 
 	# Normal route to controller
 	$r->namespaces(['Project::Manager::UI::Mojo::Controller']);
