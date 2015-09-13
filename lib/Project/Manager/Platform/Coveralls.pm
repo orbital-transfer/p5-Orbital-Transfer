@@ -2,6 +2,28 @@ package Project::Manager::Platform::Coveralls;
 
 use Moo;
 
+has coveralls_domain => ( is => 'rw',
+	default => sub {'https://coveralls.io/'} );
+
+has ua => ( is => 'lazy' );
+
+sub _build_ua {
+	HTTP::Tiny->new;
+}
+
+sub get_index{
+	my ($self) = @_;
+	$self->ua->get( $self->coveralls_domain );
+}
+
+sub auth_to_github {
+	my $auth_url = 'https://coveralls.io/authorize/github'
+}
+
+sub auth_to_bitbucket {
+	my $auth_url = 'https://coveralls.io/authorize/bitbucket'
+}
+
 # TODO
 # - login via GitHub
 # - retrieve a list of repositories
