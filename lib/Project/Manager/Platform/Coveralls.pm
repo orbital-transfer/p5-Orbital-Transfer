@@ -1,6 +1,8 @@
 package Project::Manager::Platform::Coveralls;
 
 use Moo;
+use HTTP::Tiny;
+use HTTP::CookieJar;
 
 has coveralls_domain => ( is => 'rw',
 	default => sub {'https://coveralls.io/'} );
@@ -8,7 +10,7 @@ has coveralls_domain => ( is => 'rw',
 has ua => ( is => 'lazy' );
 
 sub _build_ua {
-	HTTP::Tiny->new;
+	HTTP::Tiny->new( cookie_jar => HTTP::CookieJar->new );
 }
 
 sub get_index{
