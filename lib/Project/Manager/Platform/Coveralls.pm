@@ -1,7 +1,7 @@
 package Project::Manager::Platform::Coveralls;
 
 use Moo;
-use HTTP::Tiny;
+use LWP::UserAgent;
 use HTTP::CookieJar;
 
 has coveralls_domain => ( is => 'rw',
@@ -10,7 +10,10 @@ has coveralls_domain => ( is => 'rw',
 has ua => ( is => 'lazy' );
 
 sub _build_ua {
-	HTTP::Tiny->new( cookie_jar => HTTP::CookieJar->new );
+	my $ua = LWP::UserAgent->new(
+		cookie_jar => {},
+		requests_redirectable => [ qw(GET HEAD POST) ],
+	);
 }
 
 sub get_index{
