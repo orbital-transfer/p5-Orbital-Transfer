@@ -29,6 +29,14 @@ sub auth_to_bitbucket {
 	my $auth_url = 'https://coveralls.io/authorize/bitbucket'
 }
 
+sub repos {
+	...
+	# - get the link to the corresponding GitHub repo
+	# - turn that into a GitHub repo object
+	# - get the coverage for the project
+	# - time of last coverage build
+}
+
 # TODO
 # - login via GitHub
 # - retrieve a list of repositories
