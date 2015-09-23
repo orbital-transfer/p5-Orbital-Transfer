@@ -20,6 +20,15 @@ $gh_login_form->param('login', $cred{username} );
 $gh_login_form->param('password', $cred{password} );
 my $req = $gh_login_form->click;
 my $auth_github_redirect_to_coveralls = $cv->ua->request( $req  );
-use DDP; p $auth_github_redirect_to_coveralls;
+#use DDP; p $auth_github_redirect_to_coveralls;
+
+use HTML::TreeBuilder::XPath;
+my $coveralls_tree = HTML::TreeBuilder::XPath->new_from_content(
+	$auth_github_redirect_to_coveralls->decoded_content
+);
+
+my @repos = $coveralls_tree->findnodes( q|//div[@class='repoOverview']| );
+my @repos_text = map { $_->as_text } @repos;
+use DDP; p @repos_text;
 
 $cv->repos;
