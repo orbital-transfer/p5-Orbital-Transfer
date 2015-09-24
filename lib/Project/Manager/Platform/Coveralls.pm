@@ -3,6 +3,7 @@ package Project::Manager::Platform::Coveralls;
 use Moo;
 use LWP::UserAgent;
 use HTTP::CookieJar;
+use HTML::Form;
 
 has coveralls_domain => ( is => 'rw',
 	default => sub {'https://coveralls.io/'} );
@@ -21,8 +22,24 @@ sub get_index{
 	$self->ua->get( $self->coveralls_domain );
 }
 
+sub _find_github_auth_form {
+	my ($self, $content) = @_;
+	my ($gh_login_form) = grep { $_->action eq 'https://github.com/session' }
+		HTML::Form->parse( $content );
+	$gh_login_form;
+}
+
 sub auth_to_github {
-	my $auth_url = 'https://coveralls.io/authorize/github'
+	my ($self, $cred) = @_;
+	my $auth_url = 'https://coveralls.io/authorize/github';
+	my $auth_to_github_res = $self->ua->get( $auth_url );
+	my $gh_login_form = $self->_find_github_auth_form( $auth_to_github_res );
+	$gh_login_form->param('login', $cred->{username} );
+	$gh_login_form->param('password', $cred->{password} );
+	my $req = $gh_login_form->click;
+	my $auth_github_redirect_to_coveralls = $self->ua->request( $req  );
+	die "Authorisation to GitHub failed" if $self->_find_github_auth_form($auth_github_redirect_to_coveralls);
+	return $auth_github_redirect_to_coveralls;
 }
 
 sub auth_to_bitbucket {
