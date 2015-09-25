@@ -34,11 +34,24 @@ sub auth_to_github {
 	my $auth_url = 'https://coveralls.io/authorize/github';
 	my $auth_to_github_res = $self->ua->get( $auth_url );
 	my $gh_login_form = $self->_find_github_auth_form( $auth_to_github_res );
+	if( !$gh_login_form ) {
+		# no login, already logged in?
+		return $auth_to_github_res;
+	}
+
+	# set login parameters
 	$gh_login_form->param('login', $cred->{username} );
 	$gh_login_form->param('password', $cred->{password} );
 	my $req = $gh_login_form->click;
+
+	# send login request
 	my $auth_github_redirect_to_coveralls = $self->ua->request( $req  );
-	die "Authorisation to GitHub failed" if $self->_find_github_auth_form($auth_github_redirect_to_coveralls);
+
+	if( $self->_find_github_auth_form($auth_github_redirect_to_coveralls) ) {
+		# still have login form, so that means we did not login
+		die "Authorisation to GitHub failed"
+	}
+
 	return $auth_github_redirect_to_coveralls;
 }
 
