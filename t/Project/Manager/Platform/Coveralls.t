@@ -22,7 +22,15 @@ my $coveralls_tree = HTML::TreeBuilder::XPath->new_from_content(
 );
 
 my @repos = $coveralls_tree->findnodes( q|//div[@class='repoOverview']| );
-my @repos_text = map { $_->as_text } @repos;
+use DDP; p $repos[0]->as_HTML;
+my @repos_text = map {
+	my ($coverage_text_node) = $_->findnodes('.//div[contains(@class,"coverageText")]');
+	my $coverage_text =
+	+{
+		( $coverage_text_node ) ? (coverage =>  $coverage_text_node->as_trimmed_text) : (),
+		text => $_->as_trimmed_text,
+	}
+} @repos;
 use DDP; p @repos_text;
 
 $cv->repos;
