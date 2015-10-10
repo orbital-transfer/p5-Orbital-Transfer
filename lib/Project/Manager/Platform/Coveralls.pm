@@ -91,13 +91,16 @@ sub repos {
 	my $coveralls_tree = $self->_base_tree;
 	my @repos = $coveralls_tree->findnodes( q|//div[@class='repoOverview']| );
 	#use DDP; p $repos[0]->as_HTML;#DEBUG
+
 	my @repos_data = map {
 		my ($coverage_text_node) = $_->findnodes('.//div[contains(@class,"coverageText")]');
 		my ($coveralls_org_node, $coveralls_repo_node) = $_->findnodes('.//h1/a');
+
+
 		my $coverage_text =
 		+{
 			( $coverage_text_node ) ? (coverage =>  $coverage_text_node->as_trimmed_text) : (),
-			coveralls_organisation => {
+			coveralls_org => {
 				name => $coveralls_org_node->as_trimmed_text,
 				link => URI->new_abs($coveralls_org_node->attr('href'), $coveralls_base),
 			},
@@ -106,10 +109,19 @@ sub repos {
 				link => URI->new_abs($coveralls_repo_node->attr('href'), $coveralls_base),
 			},
 			text => $_->as_trimmed_text,
-		}
+		};
+
+		# get the link to the corresponding GitHub repo
+		my $github_repo_uri = URI->new('https://github.com');
+		$github_repo_uri->path_segments(
+			$coverage_text->{coveralls_org}{name},
+			$coverage_text->{coveralls_repo}{name},
+			);
+		$coverage_text->{github_repo}{link} = $github_repo_uri;
+
+		$coverage_text;
 	} @repos;
-	# - get the link to the corresponding GitHub repo
-	# - turn that into a GitHub repo object
+	# - turn the github repo link into a GitHub repo object
 	# - get the coverage for the project
 	# - time of last coverage build
 }
