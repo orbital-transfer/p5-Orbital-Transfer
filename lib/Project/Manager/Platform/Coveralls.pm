@@ -63,7 +63,8 @@ sub auth_to_github {
 }
 
 sub auth_to_bitbucket {
-	my $auth_url = 'https://coveralls.io/authorize/bitbucket'
+	my $auth_url = 'https://coveralls.io/authorize/bitbucket';
+	...
 }
 
 # Contains the HTML of the base page for Coveralls (once logged in).
@@ -159,7 +160,6 @@ sub repos {
 }
 
 # TODO
-# - login via GitHub
 # - retrieve a list of repositories
 # - add a repository from GitHub name
 # - list setting for repository
