@@ -11,6 +11,7 @@ use HTML::FormatText;
 use String::Strip qw(StripLTSpace);
 
 use Types::Standard qw(Str InstanceOf);
+use Project::Manager::Platform::Coveralls::Repo;
 
 has coveralls_domain => ( is => 'rw',
 	default => sub {URI->new('https://coveralls.io/')} );
@@ -104,6 +105,20 @@ sub repos {
 
 
 		my $repo_data = +{
+			_test =>
+			do {
+				my $r = Project::Manager::Platform::Coveralls::Repo->new(
+						coveralls_domain => $coveralls_base,
+						repo_overview_node => $_
+					       );
+				my $attrs = 'Moo'->_constructor_maker_for('Project::Manager::Platform::Coveralls::Repo')->all_attribute_specs;
+				for my $attr (keys %$attrs) {
+					if( exists $attrs->{$attr}{lazy} ) {
+						$r->$attr();
+					}
+				}
+				$r
+			},
 			( $coverage_text_node ) ? (coverage =>  $coverage_text_node->as_trimmed_text) : (),
 			build => {
 				text => do {
