@@ -20,12 +20,23 @@ has _node_coverage_text => ( is => 'lazy');
 		my ($coverage_text_node) = $self->repo_overview_node->findnodes('.//div[contains(@class,"coverageText")]');
 		$coverage_text_node;
 	}
+
+=attr coverage_text
+
+A string tells how much coverage the repository has. If there have been no builds, this is C<undef>.
+
+e.g., "75%"
+
+=cut
 has coverage_text => ( is => 'lazy' );
 	sub _build_coverage_text {
 		my ($self) = @_;
-		( $self->_node_coverage_text ) ? ( $self->_node_coverage_text->as_trimmed_text ) : (),
+		  ( $self->_node_coverage_text )
+		? ( $self->_node_coverage_text->as_trimmed_text )
+		: (),
 	}
 
+# extract the organisation and repository links as C<HTML::Element>s
 has _node_coverage_head_links => (
 	is => 'lazy',
 	handles_via => 'Array',
@@ -39,6 +50,7 @@ has _node_coverage_head_links => (
 		[ my ($coveralls_org_node, $coveralls_repo_node) = $self->repo_overview_node->findnodes('.//h1/a') ];
 	}
 
+# extract the text that summarises the build information
 has _node_build_summary => ( is => 'lazy',);
 	sub _build__node_build_summary {
 		my ($self) = @_;
@@ -64,6 +76,11 @@ has _text_formatter => ( is => 'lazy' );
 		my $fmt_text = HTML::FormatText->new;
 	}
 
+=attr build_text
+
+TODO
+
+=cut
 has build_text => ( is => 'lazy' );
 	sub _build_build_text {
 		my ($self) = @_;
@@ -72,6 +89,23 @@ has build_text => ( is => 'lazy' );
 		$bs_text;
 	}
 
+=attr last_build_number
+
+TODO
+
+=attr last_build_link
+
+TODO
+
+=attr last_build_details
+
+TODO
+
+=attr last_build_branch
+
+TODO
+
+=cut
 has last_build => (
 	is => 'lazy',
 	handles_via => 'Hash',
@@ -101,6 +135,23 @@ has last_build => (
 		: (),
 	}
 
+=attr org_name
+
+TODO
+
+=attr org_link
+
+TODO
+
+=attr repo_name
+
+TODO
+
+=attr repo_link
+
+TODO
+
+=cut
 has _coveralls_metadata => (
 	is => 'lazy',
 	handles_via => 'Hash',
@@ -121,6 +172,11 @@ has _coveralls_metadata => (
 		},
 	}
 
+=attr github
+
+TODO
+
+=cut
 has github => ( is => 'lazy',);
 	sub _build_github {
 		my ($self) = @_;
