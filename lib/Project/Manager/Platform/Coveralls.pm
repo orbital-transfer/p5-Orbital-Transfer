@@ -99,12 +99,15 @@ sub repos {
 				coveralls_domain => $coveralls_base,
 				repo_overview_node => $_
 			       );
+
+		# TODO remove the lazy attribute getter
 		my $attrs = 'Moo'->_constructor_maker_for('Project::Manager::Platform::Coveralls::Repo')->all_attribute_specs;
 		for my $attr (keys %$attrs) {
 			if( exists $attrs->{$attr}{lazy} ) {
 				$r->$attr();
 			}
 		}
+
 		$r
 	} @repos;
 }
