@@ -87,6 +87,15 @@ has _base_tree => ( is => 'lazy', isa => InstanceOf["HTML::TreeBuilder::XPath"] 
 		);
 	}
 
+=method repos
+
+Returns an C<ArrayRef> of C<Project::Manager::Platform::Coveralls::Repo>
+instances for every repository that is available under the current user's
+Coveralls account.
+
+Requires a login.
+
+=cut
 sub repos {
 	my ($self) = @_;
 
@@ -110,10 +119,10 @@ sub repos {
 
 		$r
 	} @repos;
+	\@repos_data;
 }
 
 # TODO
-# - retrieve a list of repositories
 # - add a repository from GitHub name
 # - list setting for repository
 # - get a list of builds (timestamp, commit SHA)
