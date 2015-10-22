@@ -122,9 +122,22 @@ sub repos {
 	\@repos_data;
 }
 
+=methods build_history_for_repo
+
+  build_history_for_repo( Project::Manager::Platform::Coveralls::Repo $repo )
+
+Visits the repository defined by C<$repo> to get the build history of that particular repository.
+
+TODO define the return value
+
+=cut
+sub build_history_for_repo {
+	...
+}
+
 # TODO
 # - add a repository from GitHub name
-# - list setting for repository
+# - list settings for repository
 # - get a list of builds (timestamp, commit SHA)
 # - get the coverage for a build
 # - get the coverage of each file in the build
