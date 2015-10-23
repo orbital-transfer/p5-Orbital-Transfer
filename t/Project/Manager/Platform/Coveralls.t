@@ -16,7 +16,7 @@ $cv->auth_to_github( \%cred );
 
 #use DDP; p $auth_github_redirect_to_coveralls;
 
-my @repos = $cv->repos;
-use DDP; p @repos;
+my $repos = $cv->repos;
+my $first_repo = $repos->[0];
 
 $cv->repos;
