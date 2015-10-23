@@ -19,4 +19,8 @@ $cv->auth_to_github( \%cred );
 my $repos = $cv->repos;
 my $first_repo = $repos->[0];
 
-$cv->repos;
+use DDP; p $first_repo;
+
+my $repo_page = $cv->ua->get( $first_repo->repo_link );
+
+use DDP; p $repo_page;
