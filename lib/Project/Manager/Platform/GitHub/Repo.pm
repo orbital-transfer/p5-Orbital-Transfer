@@ -27,13 +27,13 @@ sub _parse_uri {
 			| git://github\.com/
 			| https? :// github\.com/
 		)
-		(         [^/\s]+    )
+		(?<namespace> [^/\s]+ ) # user or organisation
 		        /
-		(         [^/\s]+    )
+		(?<repo>      [^/\s]+ ) # repository name
 		        $,x ) {
 
-		my $namespace = $1;
-		my $name = $2;
+		my $namespace = $+{namespace};
+		my $name = $+{repo};
 		$name =~ s/.git$//;
 
 		return ( $namespace, $name );
