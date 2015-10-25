@@ -23,4 +23,7 @@ use DDP; p $first_repo;
 
 my $repo_page = $cv->ua->get( $first_repo->repo_link );
 
-use DDP; p $repo_page;
+use HTML::TreeBuilder::XPath;
+my $tree = HTML::TreeBuilder::XPath->new_from_content( $repo_page->decoded_content );
+my @tr = $tree->findnodes('//tr');;
+use DDP; p @tr;
