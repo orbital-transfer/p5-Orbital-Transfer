@@ -24,6 +24,14 @@ use DDP; p $first_repo;
 my $repo_page = $cv->ua->get( $first_repo->repo_link );
 
 use HTML::TreeBuilder::XPath;
+use HTML::TableExtract;
 my $tree = HTML::TreeBuilder::XPath->new_from_content( $repo_page->decoded_content );
 my @tr = $tree->findnodes('//tr');;
-use DDP; p @tr;
+my @tr_text = map { $_->as_trimmed_text } @tr;
+use DDP; p @tr_text;
+
+my $te = HTML::TableExtract->new( slice_columns => 0 );
+$te->parse( $repo_page->decoded_content );
+my $table = $te->first_table_found;
+my @rows = $table->rows;
+use DDP; p @rows;
