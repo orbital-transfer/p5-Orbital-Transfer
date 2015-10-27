@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 
+
 use Project::Manager::Platform::Coveralls;
 use Project::Manager::Platform::GitHub::User;
 use Project::Manager::Config;
@@ -30,8 +31,18 @@ my @tr = $tree->findnodes('//tr');;
 my @tr_text = map { $_->as_trimmed_text } @tr;
 use DDP; p @tr_text;
 
+use List::MoreUtils qw/zip/;
+use String::Strip qw(StripLTSpace);
 my $te = HTML::TableExtract->new( slice_columns => 0 );
 $te->parse( $repo_page->decoded_content );
 my $table = $te->first_table_found;
 my @rows = $table->rows;
-use DDP; p @rows;
+my $header = shift @rows;
+
+my @table_hashes = map {
+	my @values = @$_;
+	StripLTSpace($_) for @values;
+	+{ zip @$header, @values };
+} @rows;
+
+use DDP; p @table_hashes;
