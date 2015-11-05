@@ -45,4 +45,12 @@ my @table_hashes = map {
 	+{ zip @$header, @values };
 } @rows;
 
-use DDP; p @table_hashes;
+use Project::Manager::Platform::Coveralls::Build;
+my @build_details = map {
+	Project::Manager::Platform::Coveralls::Build->new_from_table_headers(
+		%$_
+	);
+} @table_hashes;
+
+#use DDP; p @table_hashes;
+use DDP; p @build_details;
