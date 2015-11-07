@@ -9,6 +9,11 @@ use HTML::TreeBuilder::XPath;
 use URI;
 use HTML::FormatText;
 
+use HTML::TableExtract;
+use List::MoreUtils qw/zip/;
+use String::Strip qw(StripLTSpace);
+use Project::Manager::Platform::Coveralls::Build;
+
 use Types::Standard qw(Str InstanceOf);
 use Project::Manager::Platform::Coveralls::Repo;
 
@@ -132,7 +137,28 @@ TODO define the return value
 
 =cut
 sub build_history_for_repo {
-	...
+	my ($self, $repo) = @_;
+	my $repo_page = $self->ua->get( $repo->repo_link );
+
+	my $te = HTML::TableExtract->new( slice_columns => 0 );
+	$te->parse( $repo_page->decoded_content );
+	my $table = $te->first_table_found;
+	my @rows = $table->rows;
+	my $header = shift @rows;
+
+	my @table_hashes = map {
+		my @values = @$_;
+		StripLTSpace($_) for @values;
+		+{ zip @$header, @values };
+	} @rows;
+
+	my @build_details = map {
+		Project::Manager::Platform::Coveralls::Build->new_from_table_headers(
+			%$_
+		);
+	} @table_hashes;
+
+	\@build_details;
 }
 
 # TODO
