@@ -1,0 +1,16 @@
+Repo: [% repo %]
+---
+[% FOREACH issues -%]
+[% ... %][[% state %]] {[% number %]}[% ... %][diff:[% difficulty %]][% ... %][pri:[% priority %]][% ... %][date: [% date_span %]][% ... %]|[% ... %][% title %] {{{
+  Body:
+    [% info.body %]
+  ---
+  }}}
+[% END -%]
+---
+Calendar: {{{
+[% calendar %]
+}}}
+
+
+vim: fdm=marker

@@ -7,6 +7,7 @@ use Project::Manager::Platform::GitHub;
 
 use YAML qw(LoadFile DumpFile);
 use Path::Tiny;
+# TODO CONF_FILE should be an attribute
 use constant CONF_FILE => path('~/.project-manager.yml');
 
 our $config = {};

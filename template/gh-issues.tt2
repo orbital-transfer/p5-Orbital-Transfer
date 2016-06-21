@@ -1,0 +1,23 @@
+[% TAGS outline -%]
+Repo: [% repo %]
+---
+%% FOREACH issue IN issues
+%%	FILTER indent(2)
+[%		"[${issue.state}]" %] [% "{$issue.number}" | format('%-4s') %] [% "[diff: ${issue.difficulty}]" %]  [% "[pri: ${issue.priority}]" %] [% "[date: ${issue.date_span}]" %] | [% issue.title %] {{{
+%%		"Body:\n"
+%%		IF issue.info.body
+%%			FILTER indent(4)
+[%				issue.info.body %]
+%%			END
+%%		END
+[%		'---' %]
+[%		'}}}'   %]
+%%	END
+%% END
+---
+Calendar: {{{
+[% calendar %]
+}}}
+
+
+vim: fdm=marker
