@@ -131,9 +131,10 @@ sub gather_issues {
 	my ($self, $opt) = @_;
 
 	my $repo = $opt->{repo_gh};
-	my $expires_in = $opt->{refresh} ? 'now' : 'never';
+	my $expires_in = 'never';
 	my $dbm = $self->container->resolve( service => 'dbm');
 
+	$self->container->resolve( service => 'cache')->remove( $repo ) if $opt->{refresh};
 	my $issues = $self->container->resolve( service => 'cache')->compute(
 		$repo,
 		$expires_in,
@@ -142,6 +143,7 @@ sub gather_issues {
 
 	for my $cur_issue ( @$issues ) {
 		my $id = $cur_issue->{number};
+		$self->container->resolve( service => 'cache')->remove( "$repo/issue/$id" ) if $opt->{refresh};
 		$cur_issue->{info} = $self->container->resolve( service => 'cache')->compute(
 			"$repo/issue/$id",
 			$expires_in,
