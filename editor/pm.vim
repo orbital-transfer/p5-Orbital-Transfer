@@ -50,6 +50,8 @@ command! PmCal call PmCal()
 
 function! PmCal()
 	let b:tempview = tempname()
-	exe "!".g:pm_bin." text --remind > " . b:tempview
-	exe "!screen wyrd " . b:tempview
+	let b:name = system(g:pm_bin . " text --auto-uri")
+	exe "sil! !".g:pm_bin." text --remind > " . b:tempview
+	exe "sil! !screen -t 'wyrd-". b:name . "' wyrd " . b:tempview
+	redraw!
 endfunction
