@@ -7,9 +7,10 @@ augroup PmAu
 	au BufReadPost   pm://*  call PmBufReadPost()
 augroup END
 
+" TODO use path to figure this out
 let g:pm_bin = '~/sw_projects/SeeLucid/p5-Project-Manager/p5-Project-Manager/bin/pm'
 function! PmRead(uri)
-	exe "sil! r!".g:pm_bin." text --uri ".a:uri." --read"
+	exe "sil! r!".g:pm_bin." text --uri ".a:uri." --read" . (v:cmdbang ? ' --refresh' : '')
 	if v:shell_error != 0
 		redraw!
 		echohl Error | echo "***error*** (PmRead) sorry, unable to fetch pm" | echohl None

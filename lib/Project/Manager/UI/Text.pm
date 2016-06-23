@@ -36,24 +36,26 @@ sub _build_tt {
 
 sub run {
 	my ($self, @args) = @_;
-	my ($read, $write, $remind, $uri_str, $auto_uri);
+	my ($read, $write, $remind, $uri_str, $auto_uri, $refresh);
 	$read = 0;
 	$write = 0;
 	GetOptions(
 		"uri=s", \$uri_str,
 		"read", \$read,
 		"write", \$write,
+		"refresh", \$refresh,
 		"remind", \$remind,
 		"auto-uri", \$auto_uri,
 	);
+	my $extra_opt = { refresh => $refresh };
 	if( $read ) {
-		my $opt = $self->opt_from_uri_str($uri_str);
+		my $opt = $self->opt_from_uri_str($uri_str, $extra_opt);
 		$self->output_issues( $opt );
 	} elsif( $write ) {
-		my $opt = $self->opt_from_uri_str($uri_str);
+		my $opt = $self->opt_from_uri_str($uri_str, $extra_opt);
 		$self->analyse_issues( $opt );
 	} elsif( $remind ) {
-		my $opt = $self->opt_from_uri_str($uri_str);
+		my $opt = $self->opt_from_uri_str($uri_str, $extra_opt);
 		$self->remind_cal_issues( $opt );
 	} elsif( $auto_uri ) {
 		print $self->get_uri_from_git_remote;
@@ -71,7 +73,7 @@ sub get_uri_from_git_remote {
 }
 
 sub opt_from_uri_str {
-	my ($self, $uri_str) = @_;
+	my ($self, $uri_str, $extra_opt) = @_;
 	if( not $uri_str ) {
 		$uri_str = $self->get_uri_from_git_remote;
 	}
@@ -88,6 +90,8 @@ sub opt_from_uri_str {
 		sort_by => \@sort_by,
 	};
 	$opt->{repo_gh} = "@{[ $opt->{repo}{namespace} ]}/@{[ $opt->{repo}{name} ]}";
+
+	$opt->{refresh} //= $extra_opt->{refresh};
 
 	$opt;
 }
