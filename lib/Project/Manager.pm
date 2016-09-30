@@ -6,6 +6,7 @@ use warnings;
 use Project::Manager::UI::Term;
 use Project::Manager::UI::Mojo;
 use Project::Manager::UI::Text;
+use Project::Manager::UI::CLI;
 use Bread::Board;
 use Project::Manager::Platform::GitHub::User;
 use Project::Manager::Config;
@@ -29,6 +30,8 @@ sub run {
 		$ui_package = "Project::Manager::UI::Mojo"
 	} elsif( $ui_opt eq 'text' ) {
 		$ui_package = "Project::Manager::UI::Text"
+	} elsif( $ui_opt eq 'cli' ) {
+		$ui_package = "Project::Manager::UI::CLI"
 	} else {
 		die "invalid UI type"
 	}
