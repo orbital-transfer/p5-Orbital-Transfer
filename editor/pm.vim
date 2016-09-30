@@ -46,7 +46,7 @@ function! PmWrite(uri)
 	endif
 endfunction
 
-command! Pm exe "new `" . g:pm_bin . " text --auto-uri`"
+command! -bang Pm exe "new `". g:pm_bin . " text --auto-uri`" | exe "".(<bang>0 ? 'e!' : '')
 command! PmCal call PmCal()
 
 function! PmCal()

@@ -91,7 +91,7 @@ sub opt_from_uri_str {
 	};
 	$opt->{repo_gh} = "@{[ $opt->{repo}{namespace} ]}/@{[ $opt->{repo}{name} ]}";
 
-	$opt->{refresh} //= $extra_opt->{refresh};
+	$opt->{refresh} ||= $extra_opt->{refresh};
 
 	$opt;
 }
