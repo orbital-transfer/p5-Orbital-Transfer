@@ -2,6 +2,7 @@ Repo: [% repo %]
 ---
 [% FOREACH issues -%]
 [% ... %][[% state %]] {[% number %]}[% ... %][diff:[% difficulty %]][% ... %][pri:[% priority %]][% ... %][date: [% date_span %]][% ... %]|[% ... %][% title %] {{{
+  URI: [% ... %]
   Body:
     [% info.body %]
   ---
