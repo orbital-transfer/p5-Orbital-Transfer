@@ -1,0 +1,10 @@
+#!perl
+# PODNAME: slucid
+# ABSTRACT: SeeLucid script
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use SeeLucid;
+
+SeeLucid->new_with_cmd;
