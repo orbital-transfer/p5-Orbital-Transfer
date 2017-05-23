@@ -1,5 +1,5 @@
-package SeeLucid;
-# ABSTRACT: Run SeeLucid
+package Oberth;
+# ABSTRACT: Run Oberth
 
 use Moo;
 use MooX::Cmd;

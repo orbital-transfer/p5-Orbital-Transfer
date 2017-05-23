@@ -1,0 +1,10 @@
+#!perl
+# PODNAME: oberth
+# ABSTRACT: Oberth script
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use Oberth;
+
+Oberth->new_with_cmd;
