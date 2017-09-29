@@ -1,10 +1,14 @@
+use Oberth::Common::Setup;
 package Oberth;
 # ABSTRACT: Run Oberth
 
 use Moo;
-use MooX::Cmd;
+use CLI::Osprey;
 
-sub execute {
+subcommand config => 'Oberth::Command::Config';
+subcommand list => 'Oberth::Command::List';
+
+method run(@) {
 	...
 }
 
