@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Oberth::Common::Error;
+package Oberth::Manoeuvre::Common::Error;
 # ABSTRACT: Common exceptions/errors for Oberth
 
 use custom::failures qw/

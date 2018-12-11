@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Oberth::Common::Setup;
+package Oberth::Manoeuvre::Common::Setup;
 # ABSTRACT: Packages that can be imported into every module
 
 use autodie;
@@ -11,7 +11,7 @@ use Return::Type ();
 use MooX::TypeTiny ();
 
 use Try::Tiny ();
-use Oberth::Common::Error ();
+use Oberth::Manoeuvre::Common::Error ();
 
 use Path::Tiny ();
 
@@ -36,7 +36,7 @@ sub import {
 	Return::Type->import::into( $target );
 
 	Try::Tiny->import::into( $target );
-	Oberth::Common::Error->import::into( $target );
+	Oberth::Manoeuvre::Common::Error->import::into( $target );
 
 	Path::Tiny->import::into( $target );
 

@@ -1,5 +1,5 @@
-use Oberth::Common::Setup;
-package Oberth::Common::Types;
+use Oberth::Manoeuvre::Common::Setup;
+package Oberth::Manoeuvre::Common::Types;
 # ABSTRACT: Type library
 
 use Type::Library 0.008 -base,

@@ -1,4 +1,4 @@
-package Oberth::Issue;
+package Oberth::Manoeuvre::Issue;
 # ABSTRACT: Issue base model
 
 use Moo;
