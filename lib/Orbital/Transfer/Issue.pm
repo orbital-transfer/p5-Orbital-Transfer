@@ -1,4 +1,4 @@
-package Oberth::Manoeuvre::Issue;
+package Orbital::Transfer::Issue;
 # ABSTRACT: Issue base model
 
 use Moo;

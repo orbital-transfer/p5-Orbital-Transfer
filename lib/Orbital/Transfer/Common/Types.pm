@@ -1,5 +1,5 @@
-use Oberth::Manoeuvre::Common::Setup;
-package Oberth::Manoeuvre::Common::Types;
+use Orbital::Transfer::Common::Setup;
+package Orbital::Transfer::Common::Types;
 # ABSTRACT: Type library
 
 use Type::Library 0.008 -base,

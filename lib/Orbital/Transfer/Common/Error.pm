@@ -1,6 +1,6 @@
 use Modern::Perl;
-package Oberth::Manoeuvre::Common::Error;
-# ABSTRACT: Common exceptions/errors for Oberth
+package Orbital::Transfer::Common::Error;
+# ABSTRACT: Common exceptions/errors for Orbital
 
 use custom::failures qw/
 	IO::FileNotFound

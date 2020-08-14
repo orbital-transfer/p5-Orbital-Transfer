@@ -1,5 +1,5 @@
 use Modern::Perl;
-package Oberth::Manoeuvre::Common::Requirement;
+package Orbital::Transfer::Common::Requirement;
 # ABSTRACT: List of requirements for distribution
 
 # minimum version of Moose needed for configuring Function::Parameters

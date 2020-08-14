@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-Oberth::Manoeuvre - Software project manager
+Orbital::Transfer - Software project manager
 
 =head1 VERSION
 
