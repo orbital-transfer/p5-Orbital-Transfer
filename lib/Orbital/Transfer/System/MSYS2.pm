@@ -64,7 +64,7 @@ lazy environment => method() {
 	use FindBin;
 	my $path = File::Spec->catfile( $FindBin::Bin, qw{.. lib} );
 	$path =~ s,\\,/,g;
-	$env->set_string('PERL5OPT', "-I$path -MOrbital::Launch::System::MSWin32::EUMMnosearch");
+	$env->set_string('PERL5OPT', "-I$path -MOrbital::Payload::Environment::Perl::System::MSWin32::EUMMnosearch");
 
 	# MSYS/MinGW pkg-config command line is more reliable since it does the
 	# needed path conversions. Note that there are three pkg-config
