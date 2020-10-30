@@ -5,6 +5,7 @@ package Orbital::Transfer::System::MSYS2;
 use Mu;
 use Orbital::Transfer::Common::Setup;
 use Object::Util magic => 0;
+use Module::Util ();
 
 use Orbital::Transfer::EnvironmentVariables;
 use aliased 'Orbital::Transfer::Runnable';
@@ -61,10 +62,11 @@ lazy environment => method() {
 	delete $ENV{OPENSSL_CONF};
 	$env->set_string('OPENSSL_PREFIX', $self->msystem_base_path);
 
-	use FindBin;
-	my $path = File::Spec->catfile( $FindBin::Bin, qw{.. lib} );
-	$path =~ s,\\,/,g;
-	$env->set_string('PERL5OPT', "-I$path -MOrbital::Payload::Environment::Perl::System::MSWin32::EUMMnosearch");
+	my $eumm_module = 'Orbital::Payload::Environment::Perl::System::MSWin32::EUMMnosearch';
+	# search @INC for module and use its path
+	my $path = path(Module::Util::find_installed($eumm_module))
+		->child( qw(..) x Module::Util::module_path_parts($eumm_module) )->realpath;
+	$env->set_string('PERL5OPT', "-I$path -M$eumm_module");
 
 	# MSYS/MinGW pkg-config command line is more reliable since it does the
 	# needed path conversions. Note that there are three pkg-config
