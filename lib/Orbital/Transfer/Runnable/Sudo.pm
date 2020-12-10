@@ -5,7 +5,7 @@ package Orbital::Transfer::Runnable::Sudo;
 use Mu;
 use Orbital::Transfer::Common::Setup;
 use File::Which;
-use Clone qw(clone);
+use Storable qw(dclone);
 use Capture::Tiny qw(capture);
 
 classmethod is_admin_user() {
@@ -53,7 +53,7 @@ classmethod sudo_does_not_require_password() {
 
 classmethod to_sudo_runnable( $runnable ) {
 	return $runnable->cset(
-		command => [ 'sudo', @{ clone($runnable->command) } ],
+		command => [ 'sudo', @{ dclone($runnable->command) } ],
 		admin_privilege => 0,
 	);
 }
