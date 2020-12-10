@@ -9,7 +9,7 @@ use Path::Tiny;
 use Capture::Tiny qw(capture_stdout);
 use File::Copy;
 use YAML qw(Dump Load);
-use Term::ProgressBar;
+use Module::Load;
 
 method build_msys2_file_list() {
 	my $package_list_file = shift @ARGV
@@ -92,6 +92,8 @@ sub copy_files_to_prefix {
 	my @term_set = exists $ENV{MSYSCON} || exists $ENV{APPVEYOR_BUILD_FOLDER}
 		? ( term => 1, term_width => 80 )
 		: ();
+
+	load 'Term::ProgressBar';
 	my $progress = Term::ProgressBar->new ({
 			name => "Copying package files",
 			@term_set,
