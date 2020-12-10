@@ -8,7 +8,7 @@ use CLI::Osprey;
 use Path::Tiny;
 use Capture::Tiny qw(capture_stdout);
 use File::Copy;
-use YAML::XS qw(Dump Load);
+use YAML qw(Dump Load);
 use Term::ProgressBar;
 
 method build_msys2_file_list() {
