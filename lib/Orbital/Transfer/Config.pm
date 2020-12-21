@@ -10,7 +10,12 @@ use FindBin;
 use Env qw($ORBITAL_GLOBAL_INSTALL $ORBITAL_COVERAGE);
 
 lazy base_dir => sub {
-	my $p = path('..')->absolute;
+	my $p;
+	if( $ENV{CI} ) {
+		$p = path('~/.orbital')->absolute;
+	} else {
+		$p = path('..')->absolute;
+	}
 	$p->mkpath;
 	$p->realpath;
 };
