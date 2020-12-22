@@ -37,17 +37,24 @@ lazy environment => method() {
 	$env;
 };
 
+lazy should_run_update => method() {
+	return ! $ENV{CI};
+};
+
 method _pre_run() {
 
 }
 
 method _install() {
-	say STDERR "Updating homebrew";
-	$self->runner->$_try( system =>
-		Runnable->new(
-			command => [ qw(brew update) ]
-		)
-	);
+	local $ENV{HOMEBREW_NO_AUTO_UPDATE} = 0 + ! $self->should_run_update;
+	if( $self->should_run_update ) {
+		say STDERR "Updating homebrew";
+		$self->runner->$_try( system =>
+			Runnable->new(
+				command => [ qw(brew update) ]
+			)
+		);
+	}
 
 	# Remove old Python package
 	$self->runner->$_try( system =>
@@ -83,6 +90,7 @@ method _install() {
 }
 
 method install_packages($repo) {
+	local $ENV{HOMEBREW_NO_AUTO_UPDATE} = 0 + ! $self->should_run_update;
 	my @packages = @{ $repo->homebrew_get_packages };
 	say STDERR "Installing repo native deps";
 	if( @packages ) {
