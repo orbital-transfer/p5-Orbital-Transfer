@@ -76,6 +76,10 @@ lazy environment => method() {
 	$env;
 };
 
+lazy should_disable_checkspace => method() {
+	return $ENV{CI};
+};
+
 method _pre_run() {
 }
 
@@ -103,6 +107,20 @@ method cygpath($path_orig) {
 
 method _install() {
 	# Appveyor under MSYS2/MinGW64
+
+	if( $self->should_disable_checkspace ) {
+		# See <https://github.com/Alexpux/MSYS2-pacman/issues/59>.
+		# reduce time required to install packages by disabling pacman's disk space checking
+		my $disable_checkspace_cmd =
+			Runnable->new(
+				command => [ qw(bash -c), <<'EOF' ],
+sed -i 's/^CheckSpace/#CheckSpace/g' /etc/pacman.conf
+EOF
+				environment => $self->environment,
+			);
+
+		$self->runner->system( $disable_checkspace_cmd )
+	}
 
 	# Update keys for new packagers:
 	# See <https://www.msys2.org/news/#2020-06-29-new-packagers>,
