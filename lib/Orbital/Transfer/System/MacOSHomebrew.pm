@@ -22,9 +22,11 @@ lazy environment => method() {
 	# Set up Homebrew bin path
 	$env->prepend_path_list( 'PATH', [ $self->homebrew_prefix->child('bin')->stringify ]  );
 
-	# Set up for OpenSSL (linking and utilities)
-	$env->prepend_path_list( 'PKG_CONFIG_PATH', [ $self->homebrew_prefix->child('opt/openssl/lib/pkgconfig')->stringify ]  );
-	$env->prepend_path_list( 'PATH', [ $self->homebrew_prefix->child('opt/openssl/bin')->stringify ]  );
+	if( $self->should_install_openssl ) {
+		# Set up for OpenSSL (linking and utilities)
+		$env->prepend_path_list( 'PKG_CONFIG_PATH', [ $self->homebrew_prefix->child('opt/openssl/lib/pkgconfig')->stringify ]  );
+		$env->prepend_path_list( 'PATH', [ $self->homebrew_prefix->child('opt/openssl/bin')->stringify ]  );
+	}
 
 	# Set up for libffi linking
 	$env->prepend_path_list( 'PKG_CONFIG_PATH', [ $self->homebrew_prefix->child('opt/libffi/lib/pkgconfig')->stringify ]  );
@@ -39,6 +41,18 @@ lazy environment => method() {
 
 lazy should_run_update => method() {
 	return ! $ENV{CI};
+};
+
+lazy should_install_xquartz => method() {
+	return 0;
+};
+
+lazy should_install_pkgconfig => method() {
+	return 1;
+};
+
+lazy should_install_openssl => method() {
+	return 1;
 };
 
 method _pre_run() {
@@ -63,30 +77,36 @@ method _install() {
 		)
 	);
 
-	# Set up for X11 support
-	say STDERR "Installing xquartz homebrew cask for X11 support";
-	$self->runner->$_try( system =>
-		Runnable->new(
-			command => $_
-		)
-	) for (
-		[ qw(brew tap Caskroom/cask) ],
-		[ qw(brew install Caskroom/cask/xquartz) ]
-	);
+	if( $self->should_install_xquartz ) {
+		# Set up for X11 support
+		say STDERR "Installing xquartz homebrew cask for X11 support";
+		$self->runner->$_try( system =>
+			Runnable->new(
+				command => $_
+			)
+		) for (
+			[ qw(brew tap Caskroom/cask) ],
+			[ qw(brew install Caskroom/cask/xquartz) ]
+		);
+	}
 
-	# Set up for pkg-config
-	$self->runner->$_try( system =>
-		Runnable->new(
-			command => [ qw(brew install pkg-config) ]
-		)
-	);
+	if( $self->should_install_pkgconfig ) {
+		# Set up for pkg-config
+		$self->runner->$_try( system =>
+			Runnable->new(
+				command => [ qw(brew install pkg-config) ]
+			)
+		);
+	}
 
-	# Set up for OpenSSL (linking and utilities)
-	$self->runner->$_try( system =>
-		Runnable->new(
-			command => [ qw(brew install openssl) ]
-		)
-	);
+	if( $self->should_install_openssl ) {
+		# Set up for OpenSSL (linking and utilities)
+		$self->runner->$_try( system =>
+			Runnable->new(
+				command => [ qw(brew install openssl) ]
+			)
+		);
+	}
 }
 
 method install_packages($repo) {
