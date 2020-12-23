@@ -80,6 +80,12 @@ lazy should_disable_checkspace => method() {
 	return $ENV{CI};
 };
 
+lazy should_run_update => method() {
+	# Skip on GitHub Actions.  See <https://github.com/msys2/setup-msys2>
+	# for more information on why.
+	return ! $ENV{CI};
+};
+
 method _pre_run() {
 }
 
@@ -182,9 +188,11 @@ EOF
 		command => [ qw(taskkill /f /fi), "MODULES eq msys-2.0.dll" ],
 	);
 
-	# Update
-	$self->runner->$_try( system => $update_runnable );
-	$self->runner->$_try( system => $kill_msys2 );
+	if( $self->should_run_update ) {
+		# Update
+		$self->runner->$_try( system => $update_runnable );
+		$self->runner->$_try( system => $kill_msys2 );
+	}
 
 	if( $self->should_do_gcc9_workaround ) {
 		# Workaround GCC9 update issues:
@@ -208,9 +216,11 @@ EOF
 	# Fix mirrors again
 	$self->runner->system( $mirror_update_cmd ) if $run_mirror_update_cmd;
 
-	# Update again
-	$self->runner->$_try( system => $update_runnable );
-	$self->runner->$_try( system => $kill_msys2 );
+	if( $self->should_run_update ) {
+		# Update again
+		$self->runner->$_try( system => $update_runnable );
+		$self->runner->$_try( system => $kill_msys2 );
+	}
 
 	# build tools
 	$self->pacman(qw(mingw-w64-x86_64-make mingw-w64-x86_64-toolchain autoconf automake libtool make patch mingw-w64-x86_64-libtool));
