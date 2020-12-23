@@ -105,6 +105,10 @@ method cygpath($path_orig) {
 	$path;
 }
 
+lazy should_do_gcc9_workaround => method() {
+	return 0;
+};
+
 method _install() {
 	# Appveyor under MSYS2/MinGW64
 
@@ -182,22 +186,24 @@ EOF
 	$self->runner->$_try( system => $update_runnable );
 	$self->runner->$_try( system => $kill_msys2 );
 
-	# Workaround GCC9 update issues:
-	# Ada and ObjC support were dropped by MSYS2 with GCC9. See commit
-	# <https://github.com/msys2/MINGW-packages/commit/0c60660b0cbb485fa29ea09a229cb368e2d01bae>.
-	# and broken dependencies issue in <https://github.com/msys2/MINGW-packages/issues/5434>.
-	try {
-		my @gcc9_remove = qw(
-			mingw-w64-i686-gcc-ada   mingw-w64-i686-gcc-objc
-			mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-objc
-		);
-		$self->runner->system(
-			Runnable->new(
-				command => [ qw(pacman -R --noconfirm), @gcc9_remove ],
-				environment => $self->environment,
-			)
-		);
-	} catch { };
+	if( $self->should_do_gcc9_workaround ) {
+		# Workaround GCC9 update issues:
+		# Ada and ObjC support were dropped by MSYS2 with GCC9. See commit
+		# <https://github.com/msys2/MINGW-packages/commit/0c60660b0cbb485fa29ea09a229cb368e2d01bae>.
+		# and broken dependencies issue in <https://github.com/msys2/MINGW-packages/issues/5434>.
+		try {
+			my @gcc9_remove = qw(
+				mingw-w64-i686-gcc-ada   mingw-w64-i686-gcc-objc
+				mingw-w64-x86_64-gcc-ada mingw-w64-x86_64-gcc-objc
+			);
+			$self->runner->system(
+				Runnable->new(
+					command => [ qw(pacman -R --noconfirm), @gcc9_remove ],
+					environment => $self->environment,
+				)
+			);
+		} catch { };
+	}
 
 	# Fix mirrors again
 	$self->runner->system( $mirror_update_cmd ) if $run_mirror_update_cmd;
