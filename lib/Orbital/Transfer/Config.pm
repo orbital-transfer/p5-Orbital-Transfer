@@ -34,6 +34,11 @@ lazy lib_dir => sub {
 	$p->realpath;
 };
 
+lazy meta_file => sub {
+	my ($self) = @_;
+	$self->lib_dir->child('.orbital-meta');
+};
+
 lazy external_dir => sub {
 	my ($self) = @_;
 	my $p = $self->base_dir->child(qw(_orbital external));
