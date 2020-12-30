@@ -41,19 +41,15 @@ method environment() {
 }
 
 method setup() {
-	if( $> != 0 ) {
-		warn "Not installing meson";
-	} else {
-		$self->runner->system(
-			Runnable->new(
-				command => $_,
-				environment => $self->environment,
-			)
-		) for(
-			[ qw(pip3 install --user -U setuptools wheel) ],
-			[ qw(pip3 install --user -U meson) ],
-		);
-	}
+	$self->runner->system(
+		Runnable->new(
+			command => $_,
+			environment => $self->environment,
+		)
+	) for(
+		[ qw(pip3 install --user -U setuptools wheel) ],
+		[ qw(pip3 install --user -U meson) ],
+	);
 }
 
 method install_pip3_apt( $apt ) {
