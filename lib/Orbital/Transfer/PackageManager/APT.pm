@@ -57,6 +57,15 @@ method install_packages_command( @package ) {
 	);
 }
 
+method update_command() {
+	Runnable->new(
+		command => [
+			qw(apt-get update),
+		],
+		admin_privilege => 1,
+	);
+}
+
 with qw(Orbital::Transfer::Role::HasRunner);
 
 1;
