@@ -48,6 +48,11 @@ method _install() {
 		system(qw(useradd -m notroot));
 		system(qw(chown -R notroot:notroot /build));
 	}
+
+	$self->runner->system(
+		$self->apt->update_command
+	);
+
 	my @packages = map {
 		Orbital::Transfer::RepoPackage::APT->new( name => $_ )
 	} qw(xvfb xauth);
