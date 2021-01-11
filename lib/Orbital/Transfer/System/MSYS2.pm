@@ -81,8 +81,14 @@ lazy should_disable_checkspace => method() {
 };
 
 lazy should_run_update => method() {
+	# Should run update on AppVeyor because their version of MSYS2 may be
+	# old.
+	return 1 if exists $ENV{APPVEYOR};
+
 	# Skip on GitHub Actions.  See <https://github.com/msys2/setup-msys2>
 	# for more information on why.
+	return 1 if exists $ENV{GITHUB_ACTIONS};
+
 	return ! $ENV{CI};
 };
 
