@@ -87,7 +87,7 @@ lazy should_run_update => method() {
 
 	# Skip on GitHub Actions.  See <https://github.com/msys2/setup-msys2>
 	# for more information on why.
-	return 1 if exists $ENV{GITHUB_ACTIONS};
+	return 0 if exists $ENV{GITHUB_ACTIONS};
 
 	return ! $ENV{CI};
 };
