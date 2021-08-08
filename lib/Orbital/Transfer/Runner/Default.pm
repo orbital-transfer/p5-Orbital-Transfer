@@ -12,7 +12,7 @@ use IO::Async::Loop;
 use IO::Async::Function;
 use IO::Async::Timer::Periodic;
 
-use Orbital::Payload::System::System::Docker;
+use Orbital::Payload::Sys::System::Docker;
 
 lazy loop => method() {
 	my $loop = IO::Async::Loop->new;
@@ -50,7 +50,7 @@ method _system_with_env_args( $runnable ) {
 	my $env = $runnable->environment->environment_hash;
 	my $user_args = { user => $> , group => (split(' ', $) ))[0] };
 
-	if( ! $runnable->admin_privilege && Orbital::Payload::System::System::Docker->is_inside_docker ) {
+	if( ! $runnable->admin_privilege && Orbital::Payload::Sys::System::Docker->is_inside_docker ) {
 		# become a non-root user
 		$user_args->{group} = '1000';
 		$user_args->{user} = 1000;
