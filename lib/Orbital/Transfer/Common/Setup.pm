@@ -7,6 +7,7 @@ use autodie;
 
 use Import::Into;
 use Importer ();
+use Module::Runtime ();
 
 use Function::Parameters ();
 use Return::Type ();
@@ -28,14 +29,18 @@ sub import {
 	warnings->import::into( $target );
 	autodie->import::into( $target );
 
-	my %type_tiny_fp_check = ( reify_type => sub { Type::Utils::dwim_type($_[0]) }, );
-	Function::Parameters->import::into( $target,
-		{
-			fun         => { defaults => 'function_lax'   , %type_tiny_fp_check },
-			classmethod => { defaults => 'classmethod_lax', %type_tiny_fp_check },
-			method      => { defaults => 'method_lax'     , %type_tiny_fp_check },
-		}
-	);
+	eval {
+		Module::Runtime::use_module('Function::Parameters');
+	} and do {
+		my %type_tiny_fp_check = ( reify_type => sub { Type::Utils::dwim_type($_[0]) }, );
+		Function::Parameters->import::into( $target,
+			{
+				fun         => { defaults => 'function_lax'   , %type_tiny_fp_check },
+				classmethod => { defaults => 'classmethod_lax', %type_tiny_fp_check },
+				method      => { defaults => 'method_lax'     , %type_tiny_fp_check },
+			}
+		);
+	};
 	Return::Type->import::into( $target );
 
 	# Use postfix so that PPR does not need modification relative to the
