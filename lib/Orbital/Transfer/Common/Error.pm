@@ -1,4 +1,4 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Common::Error;
 # ABSTRACT: Common exceptions/errors for Orbital
 

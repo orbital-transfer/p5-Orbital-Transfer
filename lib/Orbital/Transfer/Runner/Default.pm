@@ -1,9 +1,8 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Runner::Default;
 # ABSTRACT: Default runner
 
 use Mu;
-use Orbital::Transfer::Common::Setup;
 use Capture::Tiny ();
 use File::chdir;
 use aliased 'Orbital::Transfer::Runnable::Sudo';

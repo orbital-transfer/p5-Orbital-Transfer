@@ -1,4 +1,4 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Role::HasRunner;
 # ABSTRACT: Role that requires runner
 

@@ -1,9 +1,8 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::EnvironmentVariables;
 # ABSTRACT: Environment variables
 
 use Mu;
-use Orbital::Transfer::Common::Setup;
 use Orbital::Transfer::Common::Types qw(InstanceOf ArrayRef Maybe Str);
 use Config;
 

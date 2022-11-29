@@ -1,4 +1,5 @@
-use Modern::Perl;
+use strict;
+use warnings;
 package Orbital::Transfer::Common::Setup;
 # ABSTRACT: Packages that can be imported into every module
 
@@ -21,7 +22,8 @@ sub import {
 
 	my $target = caller;
 
-	Modern::Perl->import::into( $target );
+	strict->import::into( $target );
+	warnings->import::into( $target );
 	autodie->import::into( $target );
 
 	my %type_tiny_fp_check = ( reify_type => sub { Type::Utils::dwim_type($_[0]) }, );

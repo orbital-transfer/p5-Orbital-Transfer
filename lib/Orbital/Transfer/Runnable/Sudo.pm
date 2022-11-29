@@ -1,9 +1,8 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Runnable::Sudo;
 # ABSTRACT: Turn a Runnable into a sudo Runnable
 
 use Mu;
-use Orbital::Transfer::Common::Setup;
 use File::Which;
 use Storable qw(dclone);
 use Capture::Tiny qw(capture);

@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 use Test::Most tests => 3;
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 use Object::Util magic => 0;
 
 use Orbital::Transfer::EnvironmentVariables;

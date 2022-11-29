@@ -1,10 +1,9 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Repo;
 # ABSTRACT: Represent the top level of a code base repo
 
 use Mu;
 
-use Orbital::Transfer::Common::Setup;
 use Orbital::Transfer::Common::Types qw(AbsDir);
 
 has directory => (

@@ -1,11 +1,9 @@
-use Modern::Perl;
+use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Repo::Role::DevopsYaml;
 # ABSTRACT: A role for reading devops configuration from YAML
 
 use Mu::Role;
 use YAML;
-
-use Orbital::Transfer::Common::Setup;
 
 lazy devops_config_path => method() {
 	File::Spec->catfile( $self->directory, qw(maint devops.yml) );
