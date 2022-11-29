@@ -130,9 +130,9 @@ method capture( $runnable ) {
 	my $died = 0;
 	my $error;
 	my @output = Capture::Tiny::capture(sub {
-		try {
+		try_tt {
 			$self->system_sync( $runnable, log => 0 );
-		} catch {
+		} catch_tt {
 			$died = 1;
 			$error = $_;
 		};

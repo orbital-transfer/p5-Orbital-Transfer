@@ -30,14 +30,14 @@ classmethod sudo_does_not_require_password() {
 		# Try to see if NOPASSWD is in output
 		my $nopasswd = 0;
 		my ($sudo_l_stdout, $sudo_l_exit);
-		try {
+		try_tt {
 			local $SIG{ALRM} = sub { die "alarm\n" };
 			alarm 2;
 			($sudo_l_stdout, undef, $sudo_l_exit) = capture {
 				system(qw(sudo -l));
 			};
 			alarm 0;
-		} catch {
+		} catch_tt {
 			# Timed out.
 			$nopasswd = 0;
 			warn "Can not access sudo list without password";

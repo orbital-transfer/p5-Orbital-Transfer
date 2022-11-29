@@ -6,6 +6,7 @@ package Orbital::Transfer::Common::Setup;
 use autodie;
 
 use Import::Into;
+use Importer ();
 
 use Function::Parameters ();
 use Return::Type ();
@@ -37,7 +38,13 @@ sub import {
 	);
 	Return::Type->import::into( $target );
 
-	Try::Tiny->import::into( $target );
+	# Use postfix so that PPR does not need modification relative to the
+	# built-in feature 'try'.
+	Importer->import_into('Try::Tiny', $target, (
+		map {
+			$_ => { -postfix => '_tt' },
+		} qw(try catch finally)
+	));
 	Orbital::Transfer::Common::Error->import::into( $target );
 
 	Path::Tiny->import::into( $target );
