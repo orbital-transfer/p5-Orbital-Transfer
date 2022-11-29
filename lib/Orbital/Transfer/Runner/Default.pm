@@ -86,7 +86,7 @@ method system_sync( $runnable, :$log = 1 ) {
 
 	my $exit;
 
-	say STDERR "Running command @{ $runnable->command }" if $log;
+	print STDERR "Running command @{ $runnable->command }\n" if $log;
 	$exit = _system_with_env( $self->_system_with_env_args(
 		$runnable
 	));
@@ -107,7 +107,7 @@ method system( $runnable ) {
 
 	my $exit;
 
-	say STDERR "Running command @{ $runnable->command }";
+	print STDERR "Running command @{ $runnable->command }\n";
 	$self->system_function->call(
 		args => [ $self->_system_with_env_args( $runnable ) ],
 		on_return => sub { $exit = shift },
@@ -126,7 +126,7 @@ method system( $runnable ) {
 }
 
 method capture( $runnable ) {
-	say STDERR "Running command @{ $runnable->command }";
+	print STDERR "Running command @{ $runnable->command }\n";
 	my $died = 0;
 	my $error;
 	my @output = Capture::Tiny::capture(sub {
