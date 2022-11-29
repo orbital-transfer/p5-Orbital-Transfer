@@ -11,6 +11,7 @@ use Importer ();
 use Function::Parameters ();
 use Return::Type ();
 use MooX::TypeTiny ();
+use Type::Utils ();
 
 use Try::Tiny ();
 use Orbital::Transfer::Common::Error ();
