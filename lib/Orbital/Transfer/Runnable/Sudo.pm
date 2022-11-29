@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Runnable::Sudo;
 # ABSTRACT: Turn a Runnable into a sudo Runnable
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 use File::Which;
 use Storable qw(dclone);

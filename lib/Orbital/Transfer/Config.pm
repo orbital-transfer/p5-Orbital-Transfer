@@ -2,9 +2,9 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Config;
 # ABSTRACT: Configuration
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 
-use Path::Tiny;
 use FindBin;
 use Env qw($ORBITAL_GLOBAL_INSTALL $ORBITAL_COVERAGE);
 

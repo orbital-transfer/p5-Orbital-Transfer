@@ -1,4 +1,5 @@
-use Orbital::Transfer::Common::Setup;
+use strict;
+use warnings;
 package Orbital::Transfer::Common::Error;
 # ABSTRACT: Common exceptions/errors for Orbital
 

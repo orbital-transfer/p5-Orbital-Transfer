@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Runnable;
 # ABSTRACT: Base for runnable command
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 use Orbital::Transfer::Common::Types qw(ArrayRef Str InstanceOf Bool);
 use Types::TypeTiny qw(StringLike);

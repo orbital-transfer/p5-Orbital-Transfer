@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Repo::Role::DevopsYaml;
 # ABSTRACT: A role for reading devops configuration from YAML
 
+use Orbital::Transfer::Common::Setup;
 use Mu::Role;
 use YAML;
 

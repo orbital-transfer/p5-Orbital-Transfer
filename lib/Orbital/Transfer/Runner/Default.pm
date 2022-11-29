@@ -2,6 +2,7 @@ use Orbital::Transfer::Common::Setup;
 package Orbital::Transfer::Runner::Default;
 # ABSTRACT: Default runner
 
+use Orbital::Transfer::Common::Setup;
 use Mu;
 use Capture::Tiny ();
 use File::chdir;
