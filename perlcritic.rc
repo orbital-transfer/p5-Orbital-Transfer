@@ -4,9 +4,9 @@ include = CodeLayout::ProhibitSpaceIndentation CodeLayout::ProhibitTrailingWhite
 [-Subroutines::ProhibitSubroutinePrototypes]
 
 [TestingAndDebugging::RequireUseStrict]
-equivalent_modules = Moo Moo::Role Orbital::Transfer::Common::Setup
+equivalent_modules = Moo Moo::Role Mu Mu::Role Orbital::Transfer::Common::Setup
 
 [TestingAndDebugging::RequireUseWarnings]
-equivalent_modules = Moo Moo::Role Orbital::Transfer::Common::Setup
+equivalent_modules = Moo Moo::Role Mu Mu::Role Orbital::Transfer::Common::Setup
 
 # vim: ft=dosini
