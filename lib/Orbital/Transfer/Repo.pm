@@ -5,15 +5,6 @@ package Orbital::Transfer::Repo;
 use Orbital::Transfer::Common::Setup;
 use Mu;
 
-use Orbital::Transfer::Common::Types qw(AbsDir);
-
-has directory => (
-	is => 'ro',
-	required => 1,
-	coerce => 1,
-	isa => AbsDir,
-);
-
 has [ qw(config platform) ] => (
 	is => 'ro',
 	required => 1,
@@ -22,5 +13,9 @@ has [ qw(config platform) ] => (
 lazy runner => method() {
 	$self->platform->runner;
 };
+
+with qw(
+	Orbital::Transfer::Role::Locatable::ByDir
+);
 
 1;
