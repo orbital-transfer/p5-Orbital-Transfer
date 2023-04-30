@@ -4,7 +4,7 @@ package Orbital::Transfer::Workspace;
 use Moo;
 use Types::Standard qw(ArrayRef InstanceOf);
 use Sub::HandlesVia;
-use Sub::Trigger::Lock qw( Lock unlock );
+use Sub::Trigger::Lock qw( Lock );
 
 has projects => (
 	is => 'ro',
