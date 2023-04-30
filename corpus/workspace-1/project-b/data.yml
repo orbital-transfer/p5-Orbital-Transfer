@@ -1,0 +1,6 @@
+depends:
+  - ../project-c
+  - ../project-d
+packages:
+  - foo
+  - baz
