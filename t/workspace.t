@@ -44,7 +44,7 @@ subtest 'Create workspace using finder' => sub {
 		directories => [ 'corpus/workspace-1' ]
 	);
 
-	$workspace->add_project( map $MyProject->new( directory => $_ ), sort @{ $finder->all } );
+	$workspace->add_project( map $MyProject->new( directory => $_ ), @{ $finder->all } );
 
 	is $workspace, $workspace_test , 'check workspace';
 };
