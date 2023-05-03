@@ -7,11 +7,11 @@ use warnings;
 
 use Module::Pluggable require => 1, search_path => [ 'Orbital::Payload::Container' ], sub_name => 'containers';
 
-classmethod finders() {
+classmethod finders(:$containers = undef) {
 	map {
 		my $init = $_->initialize;
 		exists $init->{finder} ? $init->{finder}->@* : ()
-	} $class->containers;
+	} defined $containers ? @$containers : $class->containers;
 }
 
 1;

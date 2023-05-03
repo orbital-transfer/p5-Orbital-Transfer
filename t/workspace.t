@@ -43,15 +43,17 @@ subtest "Create workspace manually" => sub {
 subtest 'Create workspace using finder' => sub {
 	my $workspace = Workspace->new;
 
+	my $test_container = 'Orbital::Payload::Container::DataYaml';
+
 	my @containers = Orbital::Transfer->containers;
 
-	is \@containers, bag { item 'Orbital::Payload::Container::DataYaml' }, 'has container';
+	is \@containers, bag { item $test_container }, 'has container';
 
 	is [ Orbital::Transfer->finders ], bag { item 'Orbital::Payload::Finder::DataYaml' }, 'has finder';
 
 	my @dirs = map {
 		$_->$_new( directories => [ 'corpus/workspace-1' ] )->all->@*
-	} Orbital::Payload::Container::DataYaml->initialize->{finder}->@*;
+	} Orbital::Transfer->finders( containers => [ $test_container ]);
 
 	$workspace->add_project( map $MyProject->new( directory => $_ ), @dirs );
 
