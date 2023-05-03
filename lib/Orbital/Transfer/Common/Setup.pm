@@ -5,6 +5,10 @@ package Orbital::Transfer::Common::Setup;
 
 use autodie;
 
+# postderef removed by Babble::Plugin::PostfixDeref
+use feature qw(postderef);
+use experimental qw(postderef);
+
 use Import::Into;
 use Importer ();
 use Module::Runtime ();
