@@ -6,8 +6,6 @@ use Mu;
 
 extends 'Orbital::Transfer::Container::Base';
 
-use Orbital::Payload::Finder::DataYaml;
-
 classmethod initialize() {
 	return {
 		finder => [ qw(Orbital::Payload::Finder::DataYaml) ],

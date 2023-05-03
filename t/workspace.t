@@ -5,6 +5,7 @@ use Test2::V0;
 use lib 'corpus/lib';
 
 use Orbital::Transfer;
+use Object::Util magic => 0;
 use aliased 'Orbital::Transfer::Workspace';
 use aliased 'Orbital::Transfer::Project';
 use With::Roles;
@@ -43,7 +44,7 @@ subtest 'Create workspace using finder' => sub {
 	is \@containers, bag { item 'Orbital::Payload::Container::DataYaml' }, 'has container';
 
 	my @dirs = map {
-		$_->new( directories => [ 'corpus/workspace-1' ] )->all->@*
+		$_->$_new( directories => [ 'corpus/workspace-1' ] )->all->@*
 	} Orbital::Payload::Container::DataYaml->initialize->{finder}->@*;
 
 	$workspace->add_project( map $MyProject->new( directory => $_ ), @dirs );
