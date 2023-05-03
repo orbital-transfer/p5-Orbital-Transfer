@@ -3,6 +3,10 @@
 use Test2::V0;
 
 use lib 'corpus/lib';
+BEGIN {
+	require Module::Pluggable;
+	$Module::Pluggable::FORCE_SEARCH_ALL_PATHS = 1;
+}
 
 use Orbital::Transfer;
 use Object::Util magic => 0;
