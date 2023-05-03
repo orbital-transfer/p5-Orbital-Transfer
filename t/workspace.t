@@ -47,6 +47,8 @@ subtest 'Create workspace using finder' => sub {
 
 	is \@containers, bag { item 'Orbital::Payload::Container::DataYaml' }, 'has container';
 
+	is [ Orbital::Transfer->finders ], bag { item 'Orbital::Payload::Finder::DataYaml' }, 'has finder';
+
 	my @dirs = map {
 		$_->$_new( directories => [ 'corpus/workspace-1' ] )->all->@*
 	} Orbital::Payload::Container::DataYaml->initialize->{finder}->@*;
