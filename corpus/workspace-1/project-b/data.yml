@@ -1,6 +1,7 @@
 depends:
   - ../project-c
   - ../project-d
+  - ../project-z
 packages:
   - foo
   - baz

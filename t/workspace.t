@@ -71,7 +71,7 @@ subtest 'Create workspace using finder' => sub {
 				item object {
 					prop isa => 'Orbital::Payload::Metadata::DataYaml';
 					call direct_dependencies => bag {
-						prop size => 4;
+						prop size => 5;
 						for my $project (qr/project-d/, qr/project-c/) {
 							item object {
 								check_isa Project;
@@ -84,6 +84,9 @@ subtest 'Create workspace using finder' => sub {
 								call name => $package;
 							};
 						}
+						item hash {
+							field directory => object { call stringify => match qr{/workspace-1/project-z$} };
+						};
 						end();
 					};
 				};
