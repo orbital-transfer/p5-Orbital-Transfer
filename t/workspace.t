@@ -12,6 +12,7 @@ use Orbital::Transfer;
 use Object::Util magic => 0;
 use aliased 'Orbital::Transfer::Workspace';
 use aliased 'Orbital::Transfer::Project';
+use aliased 'Orbital::Transfer::Registry';
 use With::Roles;
 
 my $workspace_test = object {
@@ -39,6 +40,7 @@ subtest "Create workspace manually" => sub {
 
 subtest 'Create workspace using finder' => sub {
 	my $workspace = Workspace->new;
+	my $registry = Registry->new;
 
 	my $test_container = 'Orbital::Payload::Container::DataYaml';
 
@@ -49,7 +51,7 @@ subtest 'Create workspace using finder' => sub {
 	is [ Orbital::Transfer->finders ], bag { item 'Orbital::Payload::Finder::DataYaml' }, 'has finder';
 
 	my @projects = map {
-		( Orbital::Transfer->builders( containers => [$test_container] ) )[0]->$_new->build(
+		( Orbital::Transfer->builders( containers => [$test_container] ) )[0]->$_new( registry => $registry )->build(
 			$_
 		);
 	} map {
@@ -59,6 +61,41 @@ subtest 'Create workspace using finder' => sub {
 	$workspace->add_project( @projects );
 
 	is $workspace, $workspace_test , 'check workspace';
+
+	is $workspace->projects, bag {
+		item object {
+			call directory => object {
+				call basename => string 'project-b';
+			};
+			call meta_prop => bag {
+				item object {
+					prop isa => 'Orbital::Payload::Metadata::DataYaml';
+					call direct_dependencies => bag {
+						prop size => 4;
+						item object {
+							prop isa => Project;
+							call id_uri => object { call as_string => match qr/project-d/; };
+						};
+						item object {
+							prop isa => Project;
+							call id_uri => object { call as_string => match qr/project-c/; };
+						};
+						item object {
+							check_isa 'Orbital::Transfer::Package::Spec::Generic';
+							call name => 'foo';
+						};
+						item object {
+							check_isa 'Orbital::Transfer::Package::Spec::Generic';
+							call name => 'baz';
+						};
+						end();
+					};
+				};
+				etc();
+			};
+		};
+		etc();
+	}, 'check project-b';
 };
 
 done_testing;
