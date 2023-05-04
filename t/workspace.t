@@ -72,22 +72,18 @@ subtest 'Create workspace using finder' => sub {
 					prop isa => 'Orbital::Payload::Metadata::DataYaml';
 					call direct_dependencies => bag {
 						prop size => 4;
-						item object {
-							prop isa => Project;
-							call id_uri => object { call as_string => match qr/project-d/; };
-						};
-						item object {
-							prop isa => Project;
-							call id_uri => object { call as_string => match qr/project-c/; };
-						};
-						item object {
-							check_isa 'Orbital::Transfer::Package::Spec::Generic';
-							call name => 'foo';
-						};
-						item object {
-							check_isa 'Orbital::Transfer::Package::Spec::Generic';
-							call name => 'baz';
-						};
+						for my $project (qr/project-d/, qr/project-c/) {
+							item object {
+								check_isa Project;
+								call id_uri => object { call as_string => match $project };
+							};
+						}
+						for my $package (qw(foo baz)) {
+							item object {
+								check_isa 'Orbital::Transfer::Package::Spec::Generic';
+								call name => $package;
+							};
+						}
 						end();
 					};
 				};
