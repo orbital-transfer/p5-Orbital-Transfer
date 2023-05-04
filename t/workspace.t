@@ -14,10 +14,6 @@ use aliased 'Orbital::Transfer::Workspace';
 use aliased 'Orbital::Transfer::Project';
 use With::Roles;
 
-use Orbital::Transfer::Finder::ByPIR;
-
-my $MyProject = Project->with::roles('Orbital::Transfer::Role::Locatable::ByDir');
-
 my $workspace_test = object {
 	call 'projects' => array {
 		prop size => 4;
@@ -32,6 +28,7 @@ my $workspace_test = object {
 };
 
 subtest "Create workspace manually" => sub {
+	my $MyProject = Project->with::roles('Orbital::Transfer::Role::Locatable::ByDir');
 	my $workspace = Workspace->new;
 	$workspace->add_project( $MyProject->new( directory => 'corpus/workspace-1/project-a' ) );
 	$workspace->add_project( $MyProject->new( directory => 'corpus/workspace-1/project-b' ) );
@@ -51,11 +48,15 @@ subtest 'Create workspace using finder' => sub {
 
 	is [ Orbital::Transfer->finders ], bag { item 'Orbital::Payload::Finder::DataYaml' }, 'has finder';
 
-	my @dirs = map {
+	my @projects = map {
+		( Orbital::Transfer->builders( containers => [$test_container] ) )[0]->$_new->build(
+			$_
+		);
+	} map {
 		$_->$_new( directories => [ 'corpus/workspace-1' ] )->all->@*
 	} Orbital::Transfer->finders( containers => [ $test_container ]);
 
-	$workspace->add_project( map $MyProject->new( directory => $_ ), @dirs );
+	$workspace->add_project( @projects );
 
 	is $workspace, $workspace_test , 'check workspace';
 };

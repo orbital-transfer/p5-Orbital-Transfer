@@ -9,6 +9,7 @@ extends 'Orbital::Transfer::Container::Base';
 sub initialize {
 	return {
 		finder => [ qw(Orbital::Payload::Finder::DataYaml) ],
+		builder => [ qw(Orbital::Payload::Builder::DataYaml) ],
 	};
 }
 
