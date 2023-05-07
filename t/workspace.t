@@ -75,7 +75,7 @@ subtest 'Create workspace using finder' => sub {
 						for my $project (qr/project-d/, qr/project-c/) {
 							item object {
 								check_isa Project;
-								call id_uri => object { call as_string => match $project };
+								call sub { ''.shift->id_uri } => match $project;
 							};
 						}
 						for my $package (qw(foo baz)) {
@@ -85,7 +85,7 @@ subtest 'Create workspace using finder' => sub {
 							};
 						}
 						item hash {
-							field directory => object { call stringify => match qr{/workspace-1/project-z$} };
+							field directory => object { call sub { '' . shift } => match qr{/workspace-1/project-z$} };
 						};
 						end();
 					};
