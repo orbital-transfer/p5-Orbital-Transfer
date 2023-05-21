@@ -18,6 +18,9 @@ use Return::Type ();
 use MooX::TypeTiny ();
 use Type::Utils ();
 
+use Devel::StrictMode ();
+use Carp::Assert ();
+
 use Try::Tiny ();
 use Orbital::Transfer::Common::Error ();
 
@@ -32,6 +35,9 @@ sub import {
 	strict->import::into( $target );
 	warnings->import::into( $target );
 	autodie->import::into( $target );
+
+	Devel::StrictMode->import::into( $target, qw(STRICT) );
+	Carp::Assert->import::into( $target, qw(affirm) );
 
 	eval {
 		Module::Runtime::use_module('Function::Parameters');
