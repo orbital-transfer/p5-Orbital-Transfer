@@ -15,7 +15,7 @@ ro 'rule' => isa => InstanceOf['Path::Iterator::Rule'];
 ro 'directories' => isa => ArrayRef[Dir], coerce => 1;
 
 method all() {
-	return [ map +{ directory => path($_) }, $self->rule->all( @{ $self->directories } ) ];
+	return [ map +{ 'path' => path($_) }, $self->rule->all( @{ $self->directories } ) ];
 }
 
 1;

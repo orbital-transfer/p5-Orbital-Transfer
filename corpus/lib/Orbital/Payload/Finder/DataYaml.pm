@@ -15,4 +15,10 @@ ro rule => (
 	},
 );
 
+around all => fun($orig, $self, @args) {
+	my $data = $orig->($self, @args);
+	$_->{directory} = delete $_->{path} for $data->@*;
+	$data;
+};
+
 1;
