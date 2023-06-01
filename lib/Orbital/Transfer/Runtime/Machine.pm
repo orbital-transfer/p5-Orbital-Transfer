@@ -1,5 +1,5 @@
 use Orbital::Transfer::Common::Setup;
-package Orbital::Transfer::Machine;
+package Orbital::Transfer::Runtime::Machine;
 # ABSTRACT: An abstract machine base class
 
 use Mu;
