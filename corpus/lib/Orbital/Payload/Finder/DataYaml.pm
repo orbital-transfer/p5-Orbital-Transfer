@@ -15,7 +15,8 @@ ro rule => (
 	},
 );
 
-around all => fun($orig, $self, @args) {
+around all => sub {
+	my ($orig, $self, @args) = @_;
 	my $data = $orig->($self, @args);
 	$_->{directory} = delete $_->{path} for $data->@*;
 	$data;
